@@ -12,11 +12,11 @@ MooseFS - The MooseFS Info API!
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 
 =head1 SYNOPSIS
@@ -25,6 +25,7 @@ The large portions of the code in my library have been taken directly from the W
 
 Just use different objects to get different informations of the MooseFS cluster.
 
+
     use MooseFS::Server;
     my $mfs = MooseFS::Server->new(
         masterhost => '127.0.0.1'
@@ -32,6 +33,12 @@ Just use different objects to get different informations of the MooseFS cluster.
     say Dumper $mfs->info;
     say for $mfs->list;
     ...
+
+=head1 LIMIT
+
+Don't support version below 1.6.13 by now.
+
+Don't support export/mount/operation informations by now.
 
 =cut
 

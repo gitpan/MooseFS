@@ -12,11 +12,11 @@ MooseFS - The MooseFS Info API!
 
 =head1 VERSION
 
-Version 0.02
+Version 0.03
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 
 =head1 SYNOPSIS
@@ -32,13 +32,12 @@ Just use different objects to get different informations of the MooseFS cluster.
     );
     say Dumper $mfs->info;
     say for $mfs->list;
+    say $mfs->masterversion;
     ...
 
 =head1 LIMIT
 
 Don't support version below 1.6.13 by now.
-
-Don't support export/mount/operation informations by now.
 
 =cut
 
@@ -50,6 +49,12 @@ has masterhost => (
 has masterport => (
     is => 'ro',
     default => sub { 9421 }
+);
+
+has masterversion => (
+    is => 'ro',
+    lazy => 1,
+    builder => '_check_version',
 );
 
 has sock => (
@@ -69,6 +74,24 @@ sub _create_sock {
         PeerPort => $self->masterport,
         Proto    => 'tcp',
     );
+};
+
+sub _check_version {
+    my $self = shift;
+    my $s = $self->sock;
+    print $s pack('(LL)>', 510, 0);
+    my $header = $self->myrecv($s, 8);
+    my ($cmd, $length) = unpack('(LL)>', $header);
+    my $data = $self->myrecv($s, $length);
+    if ( $cmd == 511 ) {
+        if ( $length == 52 ) {
+            return 1400;
+        } elsif ( $length == 60 ) {
+            return 1500;
+        } elsif ( $length == 68 or $length == 76) {
+            return sprintf "%d%d%02d", unpack("(SCC)>", substr($data, 0, 4));
+        };
+    };
 };
 
 sub myrecv {

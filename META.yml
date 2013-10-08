@@ -21,4 +21,4 @@ requires:
   IO::Socket::INET: 0
   Moo: 0
   perl: 5.006
-version: 0.02
+version: 0.03

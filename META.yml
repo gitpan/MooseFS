@@ -17,8 +17,11 @@ no_index:
   directory:
     - t
     - inc
+    - t
 requires:
   IO::Socket::INET: 0
   Moo: 0
   perl: 5.006
-version: 0.03
+resources:
+  repository: https://github.com/chenryn/perl-moosefs
+version: 0.04

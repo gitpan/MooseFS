@@ -16,7 +16,8 @@
    "no_index" : {
       "directory" : [
          "t",
-         "inc"
+         "inc",
+         "t"
       ]
    },
    "prereqs" : {
@@ -39,5 +40,10 @@
       }
    },
    "release_status" : "stable",
-   "version" : "0.03"
+   "resources" : {
+      "repository" : {
+         "url" : "https://github.com/chenryn/perl-moosefs"
+      }
+   },
+   "version" : "0.04"
 }
